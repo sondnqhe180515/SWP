@@ -4,8 +4,16 @@
         <servlet-name>UserStatisticsServlet</servlet-name>
         <servlet-class>controller.UserStatisticsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>controller.RegisterServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserStatisticsServlet</servlet-name>
         <url-pattern>/UserStatisticsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
     </servlet-mapping>
 </web-app>
