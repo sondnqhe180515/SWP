@@ -4,18 +4,11 @@
     <head>
         <meta charset="UTF-8">
         <title>Đăng Ký Tài Khoản</title>
-        <!-- Bootstrap 5 CDN -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Font Awesome CDN for eye icon -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="./css_k/style.css" rel="stylesheet"/>
         <style>
             body {
-                font-family: 'Segoe UI', sans-serif;
-                margin: 0;
-                padding: 0;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 background: url('image/home_swp.jpg') no-repeat center center fixed;
@@ -78,6 +71,7 @@
                 font-weight: 500;
             }
 
+
             .is-invalid {
                 border-color: #FF4500;
                 box-shadow: 0 0 6px rgba(255, 69, 0, 0.2);
@@ -99,85 +93,6 @@
                 flex-wrap: wrap;
             }
 
-            .password-toggle {
-                position: relative;
-            }
-
-            .password-toggle .toggle-btn {
-                position: absolute;
-                right: 12px;
-                top: 50%;
-                transform: translateY(-50%);
-                cursor: pointer;
-                color: #4682B4;
-                transition: color 0.3s ease;
-            }
-
-            .password-toggle .toggle-btn:hover {
-                color: #64ccff;
-            }
-
-            .buttons {
-                display: flex;
-                justify-content: center;
-                padding-top: 25px;
-                gap: 15px;
-            }
-
-            .btn {
-                padding: 8px 16px;
-                border: 1px solid #64ccff;
-                background-color: #ffffff;
-                color: #0078B4;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                text-transform: uppercase;
-                font-size: 1rem;
-            }
-
-            .btn:hover {
-                background-color: #64ccff;
-                color: #ffffff;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
-            }
-
-            .btn-r {
-                padding: 8px 16px;
-                border: 1px solid #64ccff;
-                background-color: #ffffff;
-                color: #0078B4;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                text-transform: uppercase;
-                font-size: 1rem;
-            }
-
-            .btn-r:hover {
-                background-color: #FF6B6B;
-                color: #ffffff;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(30, 144, 255, 0.3);
-            }
-
-            /* Responsive Design */
-            @media (max-width: 768px) {
-                .register-container {
-                    padding: 20px;
-                    margin: 10px;
-                }
-
-                .form-title {
-                    font-size: 1.5rem;
-                }
-
-                .btn {
-                    padding: 6px 12px;
-                    font-size: 0.9rem;
-                }
-            }
         </style>
     </head>
     <body>
@@ -187,13 +102,13 @@
             <% 
                 String error = (String) request.getAttribute("error");
                 String fullName = request.getAttribute("fullName") != null ? (String) request.getAttribute("fullName") : "";
-                String email = request.getAttribute("email") != null ? (String) request.getAttribute("email") : "";
-                String phoneNumber = request.getAttribute("phoneNumber") != null ? (String) request.getAttribute("phoneNumber") : "";
-                String address = request.getAttribute("address") != null ? (String) request.getAttribute("address") : "";
+                String gender = request.getAttribute("gender") != null ? (String) request.getAttribute("gender") : "";
                 String dobDay = request.getAttribute("dobDay") != null ? (String) request.getAttribute("dobDay") : "";
                 String dobMonth = request.getAttribute("dobMonth") != null ? (String) request.getAttribute("dobMonth") : "";
-                String dobYear = request.getAttribute("dobYear") != null ? (String) request.getAttribute("dobYear") : "";
-                String gender = request.getAttribute("gender") != null ? (String) request.getAttribute("gender") : "";
+                String dobYear = request.getAttribute("dobYear") != null ? (String) request.getAttribute("dobYear") : "";   
+                String phoneNumber = request.getAttribute("phoneNumber") != null ? (String) request.getAttribute("phoneNumber") : "";
+                String email = request.getAttribute("email") != null ? (String) request.getAttribute("email") : "";
+                String address = request.getAttribute("address") != null ? (String) request.getAttribute("address") : "";                
                 // Đặt giá trị mặc định là ngày hiện tại nếu không có dữ liệu từ request
                 java.util.Calendar cal = java.util.Calendar.getInstance();
                 String defaultDobDay = dobDay.isEmpty() ? String.valueOf(cal.get(java.util.Calendar.DAY_OF_MONTH)) : dobDay;
@@ -215,29 +130,29 @@
                 <div class="mt-2">
                     <form action="RegisterServlet" method="post" class="d-inline">
                         <input type="hidden" name="fullname" value="<%= fullName %>">
-                        <input type="hidden" name="passwordHash" value="<%= request.getAttribute("passwordHash") != null ? request.getAttribute("passwordHash") : "" %>">
-                        <input type="hidden" name="repassword" value="<%= request.getAttribute("repassword") != null ? request.getAttribute("repassword") : "" %>">
-                        <input type="hidden" name="email" value="<%= email %>">
-                        <input type="hidden" name="phone" value="<%= phoneNumber %>">
-                        <input type="hidden" name="address" value="<%= address %>">
+                        <input type="hidden" name="gender" value="<%= gender %>">
                         <input type="hidden" name="dob_day" value="<%= dobDay %>">
                         <input type="hidden" name="dob_month" value="<%= dobMonth %>">
                         <input type="hidden" name="dob_year" value="<%= dobYear %>">
-                        <input type="hidden" name="gender" value="<%= gender %>">
                         <input type="hidden" name="confirmDob" value="true">
+                        <input type="hidden" name="phone" value="<%= phoneNumber %>">
+                        <input type="hidden" name="email" value="<%= email %>">
+                        <input type="hidden" name="address" value="<%= address %>">
+                        <input type="hidden" name="passwordHash" value="<%= request.getAttribute("passwordHash") != null ? request.getAttribute("passwordHash") : "" %>">
+                        <input type="hidden" name="repassword" value="<%= request.getAttribute("repassword") != null ? request.getAttribute("repassword") : "" %>">
                         <button type="submit" class="btn btn-primary btn-sm">Có</button>
                     </form>
                     <form action="RegisterServlet" method="get" class="d-inline">
                         <input type="hidden" name="fullname" value="<%= fullName %>">
-                        <input type="hidden" name="passwordHash" value="<%= request.getAttribute("passwordHash") != null ? request.getAttribute("passwordHash") : "" %>">
-                        <input type="hidden" name="repassword" value="<%= request.getAttribute("repassword") != null ? request.getAttribute("repassword") : "" %>">
-                        <input type="hidden" name="email" value="<%= email %>">
-                        <input type="hidden" name="phone" value="<%= phoneNumber %>">
-                        <input type="hidden" name="address" value="<%= address %>">
+                        <input type="hidden" name="gender" value="<%= gender %>">
                         <input type="hidden" name="dob_day" value="<%= dobDay %>">
                         <input type="hidden" name="dob_month" value="<%= dobMonth %>">
                         <input type="hidden" name="dob_year" value="<%= dobYear %>">
-                        <input type="hidden" name="gender" value="<%= gender %>">
+                        <input type="hidden" name="phone" value="<%= phoneNumber %>">
+                        <input type="hidden" name="email" value="<%= email %>">              
+                        <input type="hidden" name="address" value="<%= address %>">                                              
+                        <input type="hidden" name="passwordHash" value="<%= request.getAttribute("passwordHash") != null ? request.getAttribute("passwordHash") : "" %>">
+                        <input type="hidden" name="repassword" value="<%= request.getAttribute("repassword") != null ? request.getAttribute("repassword") : "" %>">
                         <button type="submit" class="btn btn-secondary btn-sm">Không</button>
                     </form>
                 </div>
@@ -250,40 +165,23 @@
                     <div class="invalid-feedback" id="fullnameError">Tên tài khoản chỉ được chứa chữ cái và khoảng trắng, ký tự đầu tiên phải là chữ cái, tối đa 50 ký tự, không được có 3 ký tự liên tiếp trùng nhau</div>
                 </div>
 
-                <div class="mb-3 password-toggle">
-                    <label class="form-label">Mật Khẩu *</label>
-                    <input type="password" class="form-control" name="passwordHash" id="passwordHash" value="<%= request.getAttribute("passwordHash") != null ? request.getAttribute("passwordHash") : "" %>" required>
-                    <span class="toggle-btn" onclick="togglePassword('passwordHash', 'togglePasswordIcon')">
-                        <!--<i id="togglePasswordIcon" class="fas fa-eye"></i>-->
-                    </span>
-                    <div class="invalid-feedback" id="passwordError">Mật khẩu phải từ 8 đến 32 ký tự, không bắt đầu bằng ký tự đặc biệt, không chứa khoảng trắng, phải có ít nhất 1 chữ cái, 1 số, 1 ký tự đặc biệt</div>
-                </div>
-
-                <div class="mb-3 password-toggle">
-                    <label class="form-label">Nhập Lại Mật Khẩu *</label>
-                    <input type="password" class="form-control" name="repassword" id="repassword" value="<%= request.getAttribute("repassword") != null ? request.getAttribute("repassword") : "" %>" required>
-                    <span class="toggle-btn" onclick="togglePassword('repassword', 'toggleRepasswordIcon')">
-                        <!--<i id="toggleRepasswordIcon" class="fas fa-eye"></i>-->
-                    </span>
-                    <div class="invalid-feedback" id="repasswordError">Mật khẩu nhập lại phải từ 8 đến 32 ký tự, không bắt đầu bằng ký tự đặc biệt, không chứa khoảng trắng, phải có ít nhất 1 chữ cái, 1 số, 1 ký tự đặc biệt</div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Số Điện Thoại *</label>
-                    <input type="text" class="form-control" name="phone" id="phone" value="<%= phoneNumber %>" required>
-                    <div class="invalid-feedback" id="phoneError">Số điện thoại phải bắt đầu bằng số 0, có đúng 10 số và không được chứa ký tự nào khác ngoài số</div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email *</label>
-                    <input type="email" class="form-control" name="email" id="email" value="<%= email %>" required>
-                    <div class="invalid-feedback" id="emailError">Email chưa đúng định dạng, nếu chứa số thì phải có ít nhất 1 chữ cái trước @gmail.com, không được có hơn 10 ký tự liên tiếp trùng nhau trước @</div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Địa Chỉ *</label>
-                    <input type="text" class="form-control" name="address" id="address" value="<%= address %>">
-                    <div class="invalid-feedback" id="addressError">Địa chỉ phải từ 2 ký tự trở lên, chỉ chứa chữ cái, số, khoảng trắng, dấu phẩy hoặc dấu gạch chéo, và bắt đầu bằng chữ cái hoặc số</div>
+                <div class="mb-3 gender-row">
+                    <label class="form-label" style="margin-bottom: 0;">Giới Tính *</label>
+                    <div class="gender-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" value="Nam" <%= "Nam".equals(gender) || gender.isEmpty() ? "checked" : "" %> required>
+                            <label class="form-check-label">Nam</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" value="Nữ" <%= "Nữ".equals(gender) ? "checked" : "" %>>
+                            <label class="form-check-label">Nữ</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" value="Khác" <%= "Khác".equals(gender) ? "checked" : "" %>>
+                            <label class="form-check-label">Khác</label>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback" id="genderError">Vui lòng chọn giới tính</div>
                 </div>
 
                 <div class="mb-3">
@@ -309,25 +207,43 @@
                         </select>
                     </div>
                     <div class="invalid-feedback" id="dobError">Ngày sinh không hợp lệ</div>
+                </div>              
+
+                <div class="mb-3">
+                    <label class="form-label">Số Điện Thoại *</label>
+                    <input type="text" class="form-control" name="phone" id="phone" value="<%= phoneNumber %>" required>
+                    <div class="invalid-feedback" id="phoneError">Số điện thoại phải bắt đầu bằng số 0, có đúng 10 số và không được chứa ký tự nào khác ngoài số</div>
                 </div>
 
-                <div class="mb-3 gender-row">
-                    <label class="form-label" style="margin-bottom: 0;">Giới Tính *</label>
-                    <div class="gender-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" value="Nam" <%= "Nam".equals(gender) || gender.isEmpty() ? "checked" : "" %> required>
-                            <label class="form-check-label">Nam</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" value="Nữ" <%= "Nữ".equals(gender) ? "checked" : "" %>>
-                            <label class="form-check-label">Nữ</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" value="Khác" <%= "Khác".equals(gender) ? "checked" : "" %>>
-                            <label class="form-check-label">Khác</label>
-                        </div>
-                    </div>
-                    <div class="invalid-feedback" id="genderError">Vui lòng chọn giới tính</div>
+                <div class="mb-3">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-control" name="email" id="email" value="<%= email %>" required>
+                    <div class="invalid-feedback" id="emailError">Email chưa đúng định dạng, nếu chứa số thì phải có ít nhất 1 chữ cái trước @gmail.com, không được có hơn 10 ký tự liên tiếp trùng nhau trước @</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Địa Chỉ *</label>
+                    <input type="text" class="form-control" name="address" id="address" value="<%= address %>">
+                    <div class="invalid-feedback" id="addressError">Địa chỉ phải từ 2 ký tự trở lên, chỉ chứa chữ cái, số, khoảng trắng, dấu phẩy hoặc dấu gạch chéo, và bắt đầu bằng chữ cái hoặc số</div>
+                </div>
+
+
+                <div class="mb-3 password-toggle">
+                    <label class="form-label">Mật Khẩu *</label>
+                    <input type="password" class="form-control" name="passwordHash" id="passwordHash" value="<%= request.getAttribute("passwordHash") != null ? request.getAttribute("passwordHash") : "" %>" required>
+                    <span class="toggle-btn" onclick="togglePassword('passwordHash', 'togglePasswordIcon')">
+
+                    </span>
+                    <div class="invalid-feedback" id="passwordError">Mật khẩu phải từ 8 đến 32 ký tự, không bắt đầu bằng ký tự đặc biệt, không chứa khoảng trắng, phải có ít nhất 1 chữ cái, 1 số, 1 ký tự đặc biệt</div>
+                </div>
+
+                <div class="mb-3 password-toggle">
+                    <label class="form-label">Nhập Lại Mật Khẩu *</label>
+                    <input type="password" class="form-control" name="repassword" id="repassword" value="<%= request.getAttribute("repassword") != null ? request.getAttribute("repassword") : "" %>" required>
+                    <span class="toggle-btn" onclick="togglePassword('repassword', 'toggleRepasswordIcon')">
+
+                    </span>
+                    <div class="invalid-feedback" id="repasswordError">Mật khẩu nhập lại phải từ 8 đến 32 ký tự, không bắt đầu bằng ký tự đặc biệt, không chứa khoảng trắng, phải có ít nhất 1 chữ cái, 1 số, 1 ký tự đặc biệt</div>
                 </div>
 
                 <div class="buttons">

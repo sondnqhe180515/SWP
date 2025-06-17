@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class UserDAO extends DBContext {
 
+    private static final String CUSTOMER_ROLE = "Khách hàng";
+
     //xử lí đăng ký tài khoản
     public void insertUser(User user) throws SQLException {
         if (connection == null) {
@@ -106,82 +108,6 @@ public class UserDAO extends DBContext {
             System.out.println("Error fetching user by ID " + userId + ": " + e.getMessage());
         }
         return null;
-    }
-
-    // Thêm phương thức cập nhật profile
-//    public boolean updateProfile(User user) {
-//        String sql = "UPDATE Users SET FullName = ?, PhoneNumber = ?, Address = ?, DateOfBirth = ?, Gender = ? WHERE UserID = ?";
-//        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-//
-//            pstmt.setString(1, user.getFullName());
-//            pstmt.setString(2, user.getPhoneNumber());
-//            if (user.getAddress() != null && !user.getAddress().isEmpty()) {
-//                pstmt.setString(3, user.getAddress());
-//            } else {
-//                pstmt.setNull(3, java.sql.Types.NVARCHAR);
-//            }
-//
-//            // Xử lý DateOfBirth
-//            if (user.getDateOfBirth() != null) {
-//                pstmt.setDate(4, new java.sql.Date(user.getDateOfBirth().getTime()));
-//            } else {
-//                pstmt.setNull(4, java.sql.Types.DATE);
-//            }
-//
-//            pstmt.setString(5, user.getGender());
-//            pstmt.setInt(6, user.getUserId());
-//
-//            int rowsAffected = pstmt.executeUpdate();
-//            return rowsAffected > 0; // Trả về true nếu cập nhật thành công
-//        } catch (SQLException e) {
-//            System.out.println("Error updating profile for user ID " + user.getUserId() + ": " + e.getMessage());
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-    // Phương thức cập nhật profile
-    public boolean updateProfile(User user) {
-        if (connection == null) {
-            System.out.println("Lỗi: Kết nối database là null!");
-            return false;
-        }
-        String sql = "UPDATE Users SET FullName = ?, PhoneNumber = ?, Address = ?, DateOfBirth = ?, Gender = ? WHERE UserID = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            System.out.println("Cập nhật profile cho UserID: " + user.getUserId());
-            System.out.println("Dữ liệu: FullName=" + user.getFullName() + ", PhoneNumber=" + user.getPhoneNumber()
-                    + ", Address=" + user.getAddress() + ", DateOfBirth=" + user.getDateOfBirth()
-                    + ", Gender=" + user.getGender());
-
-            pstmt.setString(1, user.getFullName());
-            pstmt.setString(2, user.getPhoneNumber());
-            if (user.getAddress() != null && !user.getAddress().isEmpty()) {
-                pstmt.setString(3, user.getAddress());
-            } else {
-                pstmt.setNull(3, java.sql.Types.NVARCHAR);
-            }
-
-            if (user.getDateOfBirth() != null) {
-                pstmt.setDate(4, new java.sql.Date(user.getDateOfBirth().getTime()));
-            } else {
-                pstmt.setNull(4, java.sql.Types.DATE);
-            }
-
-            pstmt.setString(5, user.getGender() != null ? user.getGender() : "");
-            pstmt.setInt(6, user.getUserId());
-
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Cập nhật thành công: " + rowsAffected + " dòng được cập nhật cho UserID: " + user.getUserId());
-                return true;
-            } else {
-                System.out.println("Không có dòng nào được cập nhật cho UserID: " + user.getUserId());
-                return false;
-            }
-        } catch (SQLException e) {
-            System.out.println("Lỗi SQL khi cập nhật profile cho UserID " + user.getUserId() + ": " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
     }
 
     // Phương thức lấy danh sách người dùng với phân trang
@@ -364,5 +290,117 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    // Lấy danh sách khách hàng theo thứ tự mặc định (theo UserID)
+    public List<User> getCustomersByDefaultOrder() {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT u.UserID, u.FullName, u.Email, u.PhoneNumber, u.Address, r.RoleName, u.Gender, u.DateOfBirth "
+                + "FROM Users u "
+                + "JOIN Roles r ON u.RoleID = r.RoleID "
+                + "WHERE r.RoleName = ? "
+                + "ORDER BY u.UserID";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, CUSTOMER_ROLE);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(rs.getInt("UserID"));
+                    user.setFullName(rs.getString("FullName"));
+                    user.setEmail(rs.getString("Email"));
+                    user.setPhoneNumber(rs.getString("PhoneNumber"));
+                    user.setAddress(rs.getString("Address"));
+                    user.setRoleName(rs.getString("RoleName"));
+                    user.setGender(rs.getString("Gender"));
+                    user.setDateOfBirth(rs.getDate("DateOfBirth"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching customers by default order: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Sắp xếp khách hàng theo tên (A-Z)
+    public List<User> sortCustomersByNameAZ() {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT u.UserID, u.FullName, u.Email, u.PhoneNumber, u.Address, r.RoleName, u.Gender, u.DateOfBirth, "
+                + "CASE WHEN CHARINDEX(' ', REVERSE(u.FullName)) > 0 "
+                + "THEN SUBSTRING(u.FullName, LEN(u.FullName) - CHARINDEX(' ', REVERSE(u.FullName)) + 2, LEN(u.FullName)) "
+                + "ELSE u.FullName END AS FirstName "
+                + "FROM Users u "
+                + "JOIN Roles r ON u.RoleID = r.RoleID "
+                + "WHERE r.RoleName = ? "
+                + "ORDER BY FirstName ASC";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, CUSTOMER_ROLE);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(rs.getInt("UserID"));
+                    user.setFullName(rs.getString("FullName"));
+                    user.setEmail(rs.getString("Email"));
+                    user.setPhoneNumber(rs.getString("PhoneNumber"));
+                    user.setAddress(rs.getString("Address"));
+                    user.setRoleName(rs.getString("RoleName"));
+                    user.setGender(rs.getString("Gender"));
+                    user.setDateOfBirth(rs.getDate("DateOfBirth"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error sorting customers by name: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Tìm kiếm khách hàng theo FullName hoặc Email
+    public List<User> searchCustomers(String keyword, String sortBy) {
+        List<User> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT u.UserID, u.FullName, u.Email, u.PhoneNumber, u.Address, r.RoleName, u.Gender, u.DateOfBirth, ")
+                .append("CASE WHEN CHARINDEX(' ', REVERSE(u.FullName)) > 0 ")
+                .append("THEN SUBSTRING(u.FullName, LEN(u.FullName) - CHARINDEX(' ', REVERSE(u.FullName)) + 2, LEN(u.FullName)) ")
+                .append("ELSE u.FullName END AS FirstName ")
+                .append("FROM Users u ")
+                .append("JOIN Roles r ON u.RoleID = r.RoleID ")
+                .append("WHERE (u.FullName LIKE ? OR u.Email LIKE ?) ")
+                .append("AND r.RoleName = ? ");
+
+        if ("name".equalsIgnoreCase(sortBy)) {
+            sql.append("ORDER BY FirstName ASC");
+        } else {
+            sql.append("ORDER BY u.UserID");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            String searchPattern = "%" + keyword + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, CUSTOMER_ROLE);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(rs.getInt("UserID"));
+                    user.setFullName(rs.getString("FullName"));
+                    user.setEmail(rs.getString("Email"));
+                    user.setPhoneNumber(rs.getString("PhoneNumber"));
+                    user.setAddress(rs.getString("Address"));
+                    user.setRoleName(rs.getString("RoleName"));
+                    user.setGender(rs.getString("Gender"));
+                    user.setDateOfBirth(rs.getDate("DateOfBirth"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error searching customers: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
     }
 }

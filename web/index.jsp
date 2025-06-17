@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>Phòng khám nha khoa SWP</title>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/styleHome.css"/>
     </head>
     <body>
         <div class="wrapper">

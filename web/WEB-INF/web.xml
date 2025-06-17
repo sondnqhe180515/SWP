@@ -8,6 +8,26 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateBookingServlet</servlet-name>
+        <servlet-class>controller.CreateBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBookingServlet</servlet-name>
+        <servlet-class>controller.EditBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewBookingServlet</servlet-name>
+        <servlet-class>controller.ViewBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewProfileServlet</servlet-name>
+        <servlet-class>controller.ViewProfileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCustomerAccountServlet</servlet-name>
+        <servlet-class>controller.ViewCustomerAccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserStatisticsServlet</servlet-name>
         <url-pattern>/UserStatisticsServlet</url-pattern>
@@ -15,5 +35,25 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateBookingServlet</servlet-name>
+        <url-pattern>/CreateBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBookingServlet</servlet-name>
+        <url-pattern>/EditBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewBookingServlet</servlet-name>
+        <url-pattern>/ViewBookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewProfileServlet</servlet-name>
+        <url-pattern>/ViewProfileServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCustomerAccountServlet</servlet-name>
+        <url-pattern>/ViewCustomerAccountServlet</url-pattern>
     </servlet-mapping>
 </web-app>

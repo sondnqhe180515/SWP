@@ -6,8 +6,6 @@
         <title>Đăng Ký Thành Công</title>
         <link href="./css_k/style.css" rel="stylesheet"/>
         <style>
-
-
             .container {
                 width: 100%;
                 max-width: 500px;
@@ -44,15 +42,16 @@
                 background-color: #64ccff;
                 color: white;
             }
+
         </style>
     </head>
     <body>
         <div class="content">
             <div class="container">
-                <div class="header">Đăng Ký Thành Công!</div>
+                <div class="header">Booking Thành Công!</div>
                 <div class="message-body">
                     <p>Chúc mừng bạn đã tạo tài khoản thành công.</p>
-                    <p><a href="register.jsp">Quay lại</a></p>
+                    <p><a href="viewBooking.jsp">Quay lại</a></p>
                 </div>
             </div>
         </div>
