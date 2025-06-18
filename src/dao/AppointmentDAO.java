@@ -23,7 +23,7 @@ public class AppointmentDAO extends DBContext {
         }
     }
 
-    // ✅ Kiểm tra có lịch ĐANG XỬ LÝ nào trong khoảng thời gian ±30 phút
+    //Kiểm tra có lịch ĐANG XỬ LÝ nào trong khoảng thời gian ±30 phút
     public boolean isDoctorBusy(int doctorId, java.util.Date appointmentDate) {
         String sql = "SELECT COUNT(*) FROM Appointments "
                 + "WHERE DoctorID = ? "
@@ -43,7 +43,7 @@ public class AppointmentDAO extends DBContext {
         return false;
     }
 
-    // ✅ Trả về các lịch ĐANG XỬ LÝ của bác sĩ trong NGÀY
+    //Trả về các lịch ĐANG XỬ LÝ của bác sĩ trong NGÀY
     public List<Appointment> getAppointmentsOfDoctorInDay(int doctorId, java.util.Date date) {
         List<Appointment> list = new ArrayList<>();
         String sql = "SELECT * FROM Appointments "
@@ -101,7 +101,7 @@ public class AppointmentDAO extends DBContext {
         return list;
     }
 
-    // ✅ Trả về true nếu ca trùng thời điểm là "Hoàn tất" hoặc không có
+    //Trả về true nếu ca trùng thời điểm là "Hoàn tất" hoặc không có
     public boolean isDoctorAvailable(int doctorId, java.util.Date appointmentDate) {
         String sql = "SELECT Status FROM Appointments "
                 + "WHERE DoctorID = ? "

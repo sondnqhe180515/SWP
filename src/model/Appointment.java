@@ -15,7 +15,6 @@ public class Appointment {
     public Appointment() {
     }
 
-    // Getters and setters
     public int getAppointmentId() {
         return appointmentId;
     }

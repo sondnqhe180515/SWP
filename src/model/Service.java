@@ -21,7 +21,6 @@ public class Service {
         this.status = status;
     }
 
-    // Getters và Setters
     public int getServiceId() {
         return serviceId;
     }

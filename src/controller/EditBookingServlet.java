@@ -18,6 +18,7 @@ public class EditBookingServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         AppointmentDAO appDao = new AppointmentDAO();
         Appointment app = appDao.getAppointmentById(id);
+        
         UserDAO userDao = new UserDAO();
         ServiceDAO serviceDao = new ServiceDAO();
 

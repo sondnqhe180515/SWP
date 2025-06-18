@@ -45,7 +45,7 @@ public class ViewCustomerAccountServlet extends HttpServlet {
             sortBy = "default";
         }
 
-        System.out.println("Received sortBy: " + sortBy + ", search: " + search); // Thêm log để debug
+        System.out.println("Received sortBy: " + sortBy + ", search: " + search);
 
         UserDAO dao = new UserDAO();
         List<User> customerList;
@@ -58,7 +58,7 @@ public class ViewCustomerAccountServlet extends HttpServlet {
             customerList = dao.getCustomersByDefaultOrder();
         }
 
-        System.out.println("Customer list size: " + customerList.size()); // Log kích thước danh sách
+        System.out.println("Customer list size: " + customerList.size());
 
         customerList = dao.getUsersByPage(page, PAGE_SIZE, "Khách hàng", customerList);
         int totalCustomers = dao.getTotalUsers("Khách hàng");
@@ -68,7 +68,7 @@ public class ViewCustomerAccountServlet extends HttpServlet {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("search", search);
-        request.setAttribute("sortBy", sortBy); // Thêm dòng này để JSP hiển thị trạng thái sortBy
+        request.setAttribute("sortBy", sortBy);
         request.setAttribute("pageSize", PAGE_SIZE);
 
         request.getRequestDispatcher("viewCustomerAccount.jsp").forward(request, response);

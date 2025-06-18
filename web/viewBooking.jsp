@@ -121,9 +121,12 @@
 
                             <td class="buttons">
                                 <a href="EditBookingServlet?id=<%= a.getAppointmentId() %>">
-                                    <button class="btn">Sửa</button>
+                                    <button class="btn">Cập nhật</button>
                                 </a>
-                            </td>
+                                <a href="AppointmentDetailServlet?id=<%= a.getAppointmentId() %>">
+                                    <button  class="btn">Xem chi tiêt</button>
+                                </a>
+                            </td>                   
                         </tr>
                         <%   }
                 } else { %>

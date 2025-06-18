@@ -43,7 +43,6 @@ public class User {
         this.gender = gender;
     }
 
-    //constructor cho statistics
     public User(int userId, String fullName, String email, String phoneNumber, String address, String roleName) {
         this.userId = userId;
         this.fullName = fullName;
@@ -140,7 +139,6 @@ public class User {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    // Getter và Setter cho roleName
 
     public String getRoleName() {
         return roleName;
