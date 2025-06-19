@@ -83,5 +83,39 @@
         <footer>
             Nụ cười của bạn – Sứ mệnh của chúng tôi!
         </footer>
+
+        <script>
+            const appointmentInput = document.getElementById("appointmentDate");
+            const timeError = document.createElement("div");
+            timeError.className = "error-message";
+            appointmentInput.parentNode.appendChild(timeError);
+
+            appointmentInput.addEventListener("input", function () {
+                const selectedDate = new Date(this.value);
+                const now = new Date();
+
+                appointmentInput.classList.remove("is-invalid");
+                timeError.textContent = "";
+
+                if (selectedDate < now) {
+                    timeError.textContent = "Không thể đặt lịch trong quá khứ.";
+                    appointmentInput.classList.add("is-invalid");
+                    return;
+                }
+
+                const hour = selectedDate.getHours();
+                const minute = selectedDate.getMinutes();
+                const totalMin = hour * 60 + minute;
+
+                const isValidTime =
+                        (totalMin >= 420 && totalMin <= 690) || // 07:00 – 11:30
+                        (totalMin >= 840 && totalMin <= 1020);  // 14:00 – 17:00
+
+                if (!isValidTime) {
+                    timeError.textContent = "Chỉ được chỉnh trong khung 07:00–11:30 hoặc 14:00–17:00.";
+                    appointmentInput.classList.add("is-invalid");
+                }
+            });
+        </script>
     </body>
 </html>
