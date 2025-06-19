@@ -117,7 +117,7 @@ public class AppointmentDAO extends DBContext {
                 String status = rs.getString("Status");
                 return status.equalsIgnoreCase("Hoàn tất");
             }
-            return true; // không có lịch tại thời điểm đó → rảnh
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
