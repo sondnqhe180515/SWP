@@ -92,7 +92,7 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>STT</th>
                             <th>Bệnh nhân</th>
                             <th>Bác sĩ</th>
                             <th>Dịch vụ</th>
@@ -105,13 +105,14 @@
                     <tbody>
                         <%
                             if (appointments != null && !appointments.isEmpty()) {
+                                int stt = start + 1;
                                 for (Appointment a : appointments) {
                                     User patient = userDao.getUserById(a.getCustomerId());
                                     User doctor = userDao.getUserById(a.getDoctorId());
                                     Service service = serviceDao.getServiceById(a.getServiceId());
                         %>
                         <tr>
-                            <td><%= a.getAppointmentId() %></td>
+                            <td><%= stt++ %></td>
                             <td><%= patient != null ? patient.getFullName() : "?" %></td>
                             <td><%= doctor != null ? doctor.getFullName() : "?" %></td>
                             <td><%= service != null ? service.getServiceName() : "?" %></td>

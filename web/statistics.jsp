@@ -86,7 +86,7 @@
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>STT</th>
                             <th>Họ và tên</th>
                             <th>Email</th>
                             <th>SĐT</th>
@@ -96,9 +96,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (User u : userList) { %>
+                        <% int stt = (currentPage - 1) * 10 + 1;
+                            for (User u : userList) { 
+                        %>
                         <tr>
-                            <td><%= u.getUserId() %></td>
+                            <td><%= stt++ %></td>
                             <td><%= u.getFullName() %></td>
                             <td><%= u.getEmail() %></td>
                             <td><%= u.getPhoneNumber() != null ? u.getPhoneNumber() : "" %></td>
