@@ -117,7 +117,7 @@
                 timeError.textContent = "";
 
                 if (selectedDate < now) {
-                    timeError.textContent = "❌ Không thể đặt lịch trong quá khứ.";
+                    timeError.textContent = "Không thể đặt lịch trong quá khứ.";
                     appointmentInput.classList.add("is-invalid");
                     return;
                 }

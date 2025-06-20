@@ -50,7 +50,7 @@
             <div class="container">
                 <div class="header">Booking Thành Công!</div>
                 <div class="message-body">
-                    <p>Chúc mừng bạn đã tạo tài khoản thành công.</p>
+                    <p>Đặt lịch thành công.</p>
                     <p><a href="viewBooking.jsp">Quay lại</a></p>
                 </div>
             </div>

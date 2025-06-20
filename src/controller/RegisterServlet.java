@@ -1,7 +1,3 @@
-/*
- * Click nbproject://nbproject/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbproject://nbproject/SystemFileSystem/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import dao.UserDAO;

@@ -77,7 +77,7 @@ public class AppointmentDAO extends DBContext {
         String sql = "SELECT * FROM Appointments "
                 + "WHERE DoctorID = ? "
                 + "AND CAST(AppointmentDate AS DATE) = CAST(? AS DATE) "
-                + "AND ABS(DATEDIFF(MINUTE, AppointmentDate, ?)) < 30"; // trùng thời gian
+                + "AND ABS(DATEDIFF(MINUTE, AppointmentDate, ?)) < 30";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             Timestamp ts = new Timestamp(time.getTime());
             ps.setInt(1, doctorId);
@@ -194,5 +194,182 @@ public class AppointmentDAO extends DBContext {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Bổ sung phương thức lọc theo trạng thái và ngày
+    public List<Appointment> getFilteredAppointments(String status, String date) {
+        List<Appointment> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM Appointments WHERE 1=1");
+
+        if (status != null && !status.trim().isEmpty()) {
+            sql.append(" AND Status = ?");
+        }
+        if (date != null && !date.trim().isEmpty()) {
+            sql.append(" AND CAST(AppointmentDate AS DATE) = ?");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(i++, status.trim());
+            }
+            if (date != null && !date.trim().isEmpty()) {
+                ps.setDate(i++, java.sql.Date.valueOf(date.trim()));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Appointment a = new Appointment();
+                a.setAppointmentId(rs.getInt("AppointmentID"));
+                a.setCustomerId(rs.getInt("CustomerID"));
+                a.setDoctorId(rs.getInt("DoctorID"));
+                a.setServiceId(rs.getInt("ServiceID"));
+                a.setAppointmentDate(rs.getTimestamp("AppointmentDate"));
+                a.setStatus(rs.getString("Status"));
+                a.setNote(rs.getString("Note"));
+                list.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // Sắp xếp theo tên bệnh nhân (A-Z, dựa trên chữ cuối cùng)
+    public List<Appointment> sortAppointmentsByCustomerNameAZ(String status, String date) {
+        List<Appointment> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT a.*, u.FullName, ")
+                .append("CASE WHEN CHARINDEX(' ', REVERSE(u.FullName)) > 0 ")
+                .append("THEN SUBSTRING(u.FullName, LEN(u.FullName) - CHARINDEX(' ', REVERSE(u.FullName)) + 2, LEN(u.FullName)) ")
+                .append("ELSE u.FullName END AS LastName ")
+                .append("FROM Appointments a ")
+                .append("JOIN Users u ON a.CustomerID = u.UserID WHERE 1=1");
+
+        if (status != null && !status.trim().isEmpty()) {
+            sql.append(" AND a.Status = ?");
+        }
+        if (date != null && !date.trim().isEmpty()) {
+            sql.append(" AND CAST(a.AppointmentDate AS DATE) = ?");
+        }
+        sql.append(" ORDER BY LastName ASC");
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(i++, status.trim());
+            }
+            if (date != null && !date.trim().isEmpty()) {
+                ps.setDate(i++, java.sql.Date.valueOf(date.trim()));
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Appointment a = new Appointment();
+                a.setAppointmentId(rs.getInt("AppointmentID"));
+                a.setCustomerId(rs.getInt("CustomerID"));
+                a.setDoctorId(rs.getInt("DoctorID"));
+                a.setServiceId(rs.getInt("ServiceID"));
+                a.setAppointmentDate(rs.getTimestamp("AppointmentDate"));
+                a.setStatus(rs.getString("Status"));
+                a.setNote(rs.getString("Note"));
+                list.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Sắp xếp theo ngày tháng (AppointmentDate, từ sớm đến muộn)
+    public List<Appointment> sortAppointmentsByDate(String status, String date) {
+        List<Appointment> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM Appointments WHERE 1=1");
+        if (status != null && !status.trim().isEmpty()) {
+            sql.append(" AND Status = ?");
+        }
+        if (date != null && !date.trim().isEmpty()) {
+            sql.append(" AND CAST(AppointmentDate AS DATE) = ?");
+        }
+        sql.append(" ORDER BY AppointmentDate ASC");
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(i++, status.trim());
+            }
+            if (date != null && !date.trim().isEmpty()) {
+                ps.setDate(i++, java.sql.Date.valueOf(date.trim()));
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Appointment a = new Appointment();
+                a.setAppointmentId(rs.getInt("AppointmentID"));
+                a.setCustomerId(rs.getInt("CustomerID"));
+                a.setDoctorId(rs.getInt("DoctorID"));
+                a.setServiceId(rs.getInt("ServiceID"));
+                a.setAppointmentDate(rs.getTimestamp("AppointmentDate"));
+                a.setStatus(rs.getString("Status"));
+                a.setNote(rs.getString("Note"));
+                list.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Tìm kiếm theo tên bệnh nhân
+    public List<Appointment> searchAppointmentsByCustomerName(String keyword, String status, String date, String sortBy) {
+        List<Appointment> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT a.*, u.FullName, ")
+                .append("CASE WHEN CHARINDEX(' ', REVERSE(u.FullName)) > 0 ")
+                .append("THEN SUBSTRING(u.FullName, LEN(u.FullName) - CHARINDEX(' ', REVERSE(u.FullName)) + 2, LEN(u.FullName)) ")
+                .append("ELSE u.FullName END AS LastName ")
+                .append("FROM Appointments a ")
+                .append("JOIN Users u ON a.CustomerID = u.UserID ")
+                .append("WHERE u.FullName LIKE ?");
+
+        if (status != null && !status.trim().isEmpty()) {
+            sql.append(" AND a.Status = ?");
+        }
+        if (date != null && !date.trim().isEmpty()) {
+            sql.append(" AND CAST(a.AppointmentDate AS DATE) = ?");
+        }
+
+        if ("name".equalsIgnoreCase(sortBy)) {
+            sql.append(" ORDER BY LastName ASC");
+        } else if ("date".equalsIgnoreCase(sortBy)) {
+            sql.append(" ORDER BY a.AppointmentDate ASC");
+        } else {
+            sql.append(" ORDER BY a.AppointmentID");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int i = 1;
+            ps.setString(i++, "%" + keyword.trim() + "%");
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(i++, status.trim());
+            }
+            if (date != null && !date.trim().isEmpty()) {
+                ps.setDate(i++, java.sql.Date.valueOf(date.trim()));
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Appointment a = new Appointment();
+                a.setAppointmentId(rs.getInt("AppointmentID"));
+                a.setCustomerId(rs.getInt("CustomerID"));
+                a.setDoctorId(rs.getInt("DoctorID"));
+                a.setServiceId(rs.getInt("ServiceID"));
+                a.setAppointmentDate(rs.getTimestamp("AppointmentDate"));
+                a.setStatus(rs.getString("Status"));
+                a.setNote(rs.getString("Note"));
+                list.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

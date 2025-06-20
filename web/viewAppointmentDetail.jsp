@@ -38,7 +38,7 @@
     <body>
         <div class="banner">
             <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474089BGn/mau-logo-rang-vang-tach-nen_045001529.png" alt="Logo" class="logo"/>
-            <a href="#" class="btn">Trang chủ</a>
+            <a href="viewBooking.jsp" class="btn">Quay lại</a>
         </div>
 
         <div class="content">
@@ -54,7 +54,7 @@
                         if (appointment != null) {
                             String formattedAppointmentDate = sdf.format(appointment.getAppointmentDate());
                     %>
-                    <!-- Thông tin khách hàng (ưu tiên lên đầu) -->
+
                     <label>Họ tên bệnh nhân:</label><span class="value"><%= patient != null ? patient.getFullName() : "Chưa cập nhật" %></span><br>
                     <label>Giới tính:</label><span class="value"><%= patient != null ? patient.getGender() : "Chưa cập nhật" %></span><br>
                     <label>Ngày/tháng/năm sinh:</label><span class="value"><%= patient != null && patient.getDateOfBirth() != null ? sdf.format(patient.getDateOfBirth()) : "Chưa cập nhật" %></span><br>
@@ -62,7 +62,6 @@
                     <label>Địa chỉ:</label><span class="value"><%= patient != null ? patient.getAddress() : "Chưa cập nhật" %></span><br>
                     <label>Email:</label><span class="value"><%= patient != null ? patient.getEmail() : "Chưa cập nhật" %></span><br>
 
-                    <!-- Thông tin lịch khám -->
                     <label>Ngày khám:</label><span class="value"><%= formattedAppointmentDate %></span><br>
                     <label>Dịch vụ:</label><span class="value"><%= service != null ? service.getServiceName() : "Chưa xác định" %></span><br>
                     <label>Trạng thái:</label><span class="value"><%= appointment.getStatus() != null ? appointment.getStatus() : "Chưa xác định" %></span><br>
@@ -70,9 +69,7 @@
                     <label>Họ tên bác sĩ:</label><span class="value"><%= doctor != null ? doctor.getFullName() : "Chưa xác định" %></span><br>
                     <label>Ghi chú:</label><span class="value"><%= appointment.getNote() != null ? appointment.getNote() : "Không có ghi chú" %></span><br>
 
-                    <div class="buttons">
-                        <button class="btn" onclick="window.location.href = 'viewBooking.jsp'">Quay lại danh sách</button>
-                    </div>
+
                     <% } else { %>
                     <p class="error-message" style="display: block;">Không tìm thấy lịch khám.</p>
                     <% } %>
