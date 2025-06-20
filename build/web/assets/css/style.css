@@ -1,0 +1,145 @@
+/* Custom CSS */
+:root {
+    --primary: #2f55d4;
+    --secondary: #5a6d90;
+    --success: #2eca8b;
+    --warning: #f17425;
+    --info: #17a2b8;
+    --danger: #e43f52;
+    --dark: #3c4858;
+    --light: #f8f9fc;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--dark);
+    background: var(--white);
+}
+
+/* Navbar */
+.navbar-custom {
+    padding: 20px 0;
+    width: 100%;
+    border-radius: 0px;
+    z-index: 999;
+    margin-bottom: 0px;
+    transition: all 0.5s ease-in-out;
+}
+
+.navbar-custom .navbar-nav .nav-item .nav-link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--dark);
+    padding: 5px 20px;
+}
+
+.navbar-custom .navbar-nav .nav-item .nav-link:hover,
+.navbar-custom .navbar-nav .nav-item .nav-link:focus,
+.navbar-custom .navbar-nav .nav-item .nav-link.active {
+    color: var(--primary);
+}
+
+/* Hero Section */
+.bg-half-170 {
+    padding: 170px 0;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+}
+
+.bg-overlay {
+    background-color: rgba(60, 72, 88, 0.7);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Blog Cards */
+.blog {
+    transition: all 0.3s ease;
+}
+
+.blog:hover {
+    transform: translateY(-7px);
+}
+
+.blog .content h4 {
+    line-height: 1.2;
+}
+
+.blog .content .title {
+    font-size: 20px;
+}
+
+.blog .content .post-meta {
+    font-size: 15px;
+}
+
+/* Footer */
+.footer {
+    background: var(--dark);
+    padding: 60px 0;
+    position: relative;
+    color: var(--light);
+}
+
+.footer .footer-head {
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.footer .footer-list {
+    margin-bottom: 0;
+}
+
+.footer .footer-list li {
+    margin-bottom: 10px;
+}
+
+.footer .footer-list li a {
+    transition: all 0.5s ease;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer .footer-list li a:hover {
+    color: var(--white);
+}
+
+/* Back to top */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-custom {
+        margin-top: 0px;
+        padding: 10px 0px !important;
+        background-color: var(--white) !important;
+        box-shadow: 0 10px 33px rgba(0, 0, 0, .1);
+    }
+
+    .navbar-custom .navbar-nav {
+        margin-top: 0px;
+    }
+
+    .navbar-custom .navbar-nav li.nav-item {
+        margin: 0px;
+    }
+
+    .navbar-custom .navbar-nav li.nav-item .nav-link {
+        color: var(--dark) !important;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+} 

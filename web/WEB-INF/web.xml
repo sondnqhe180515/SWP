@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="5.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd">
+    
+    <!-- Session Configuration -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    
+    <!-- Welcome Files -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
+    <!-- Servlet Definitions -->
+    <servlet>
+        <servlet-name>BookingFormServlet</servlet-name>
+        <servlet-class>controller.BookingFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingServlet</servlet-name>
+        <servlet-class>controller.BookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TestDBConnectionServlet</servlet-name>
+        <servlet-class>controller.TestDBConnectionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminSpecializationServlet</servlet-name>
+        <servlet-class>controller.AdminSpecializationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminCategoryServlet</servlet-name>
+        <servlet-class>controller.AdminCategoryServlet</servlet-class>
+    </servlet>
+    
+    <!-- URL Mappings -->
+    <servlet-mapping>
+        <servlet-name>BookingFormServlet</servlet-name>
+        <url-pattern>/booking-form</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingFormServlet</servlet-name>
+        <url-pattern>/get-doctors-by-specialization</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingServlet</servlet-name>
+        <url-pattern>/BookingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestDBConnectionServlet</servlet-name>
+        <url-pattern>/test-db</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminSpecializationServlet</servlet-name>
+        <url-pattern>/admin/specializations</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminSpecializationServlet</servlet-name>
+        <url-pattern>/admin/specializations/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminSpecializationServlet</servlet-name>
+        <url-pattern>/admin/specializations/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminSpecializationServlet</servlet-name>
+        <url-pattern>/admin/specializations/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminSpecializationServlet</servlet-name>
+        <url-pattern>/admin/specializations/status</url-pattern>
+    </servlet-mapping>
+    
+    <!-- AdminCategoryServlet Mappings -->
+    <servlet-mapping>
+        <servlet-name>AdminCategoryServlet</servlet-name>
+        <url-pattern>/admin/categories</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminCategoryServlet</servlet-name>
+        <url-pattern>/admin/categories/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminCategoryServlet</servlet-name>
+        <url-pattern>/admin/categories/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminCategoryServlet</servlet-name>
+        <url-pattern>/admin/categories/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminCategoryServlet</servlet-name>
+        <url-pattern>/admin/categories/status</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Error Pages -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    
+</web-app> 
