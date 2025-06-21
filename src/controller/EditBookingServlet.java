@@ -73,11 +73,11 @@ public class EditBookingServlet extends HttpServlet {
             request.setAttribute("doctors", new UserDAO().getUsersByDefaultOrder("Bác sĩ"));
             request.setAttribute("services", new ServiceDAO().getAllServices());
 
-            if (appointmentDate.before(now)) {
-                request.setAttribute("error", "Không thể chọn thời điểm trong quá khứ.");
-                request.getRequestDispatcher("editBooking.jsp").forward(request, response);
-                return;
-            }
+//            if (appointmentDate.before(now)) {
+//                request.setAttribute("error", "Không thể chọn thời điểm trong quá khứ.");
+//                request.getRequestDispatcher("editBooking.jsp").forward(request, response);
+//                return;
+//            }
 
             if (!isValidAppointmentTime(appointmentDate)) {
                 request.setAttribute("error", "Vui lòng chọn khung giờ hợp lệ: 07:00–11:30 hoặc 14:00–17:00");
@@ -104,23 +104,23 @@ public class EditBookingServlet extends HttpServlet {
             }
 
             AppointmentDAO dao = new AppointmentDAO();
-            List<Appointment> sameTimeAppointments = dao.getAppointmentsByDoctorAndTime(doctorId, appointmentDate);
-            boolean hasOngoing = sameTimeAppointments.stream()
-                    .anyMatch(a -> a.getStatus().equalsIgnoreCase("Đang xử lý") && a.getAppointmentId() != id);
-
-            if (hasOngoing) {
-                List<Appointment> overlaps = dao.getAppointmentsOfDoctorInDay(doctorId, appointmentDate);
-                StringBuilder message = new StringBuilder("Bác sĩ đã có lịch trùng trong ngày:\n");
-                SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                for (Appointment ap : overlaps) {
-                    if (ap.getAppointmentId() != id) {
-                        message.append("- ").append(displayFormat.format(ap.getAppointmentDate())).append("\n");
-                    }
-                }
-                request.setAttribute("error", message.toString());
-                request.getRequestDispatcher("editBooking.jsp").forward(request, response);
-                return;
-            }
+//            List<Appointment> sameTimeAppointments = dao.getAppointmentsByDoctorAndTime(doctorId, appointmentDate);
+//            boolean hasOngoing = sameTimeAppointments.stream()
+//                    .anyMatch(a -> a.getStatus().equalsIgnoreCase("Đang xử lý") && a.getAppointmentId() != id);
+//
+//            if (hasOngoing) {
+//                List<Appointment> overlaps = dao.getAppointmentsOfDoctorInDay(doctorId, appointmentDate);
+//                StringBuilder message = new StringBuilder("Bác sĩ đã có lịch trùng trong ngày:\n");
+//                SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//                for (Appointment ap : overlaps) {
+//                    if (ap.getAppointmentId() != id) {
+//                        message.append("- ").append(displayFormat.format(ap.getAppointmentDate())).append("\n");
+//                    }
+//                }
+//                request.setAttribute("error", message.toString());
+//                request.getRequestDispatcher("editBooking.jsp").forward(request, response);
+//                return;
+//            }
 
             dao.updateAppointment(app);
             response.sendRedirect("ViewBookingServlet");

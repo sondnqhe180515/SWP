@@ -84,6 +84,14 @@ public class CreateBookingServlet extends HttpServlet {
             boolean hasOngoing = sameTimeAppointments.stream()
                     .anyMatch(a -> a.getStatus().equalsIgnoreCase("Đang xử lý"));
 
+//            boolean hasOngoing = false;
+//            for (Appointment a : sameTimeAppointments) {
+//                if (a.getStatus().equalsIgnoreCase("Đang xử lý")) {
+//                    hasOngoing = true;
+//                    break;
+//                }
+//            }
+
             if (hasOngoing) {
                 List<Appointment> overlaps = dao.getAppointmentsOfDoctorInDay(doctorId, appointmentDate);
                 StringBuilder message = new StringBuilder("Bác sĩ đã có lịch trùng trong ngày:\n");
