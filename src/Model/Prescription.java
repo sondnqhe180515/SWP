@@ -4,20 +4,23 @@ public class Prescription {
     private int prescriptionID;
     private int recordID;
     private String medicineName;
-    private int quantity;
-    private String instructions;
+    private String dose;
+    private String freq;
+    private String days;
+    private String note;
 
-    // ✅ Constructor mặc định (rỗng)
-    public Prescription() {
-    }
+    // Constructor, Getter, Setter
+    public Prescription(){
+    };
 
-    // ✅ Constructor đầy đủ tham số
-    public Prescription(int prescriptionID, int recordID, String medicineName, int quantity, String instructions) {
+    public Prescription(int prescriptionID, int recordID, String medicineName, String dose, String freq, String days, String note) {
         this.prescriptionID = prescriptionID;
         this.recordID = recordID;
         this.medicineName = medicineName;
-        this.quantity = quantity;
-        this.instructions = instructions;
+        this.dose = dose;
+        this.freq = freq;
+        this.days = days;
+        this.note = note;
     }
 
     // ✅ Getter và Setter
@@ -45,19 +48,37 @@ public class Prescription {
         this.medicineName = medicineName;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getDose() {
+        return dose;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setDose(String dose) {
+        this.dose = dose;
     }
 
-    public String getInstructions() {
-        return instructions;
+    public String getFreq() {
+        return freq;
     }
 
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
+    public void setFreq(String freq) {
+        this.freq = freq;
     }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+    
+    
 }

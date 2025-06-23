@@ -1,8 +1,9 @@
 package DAO;
 
 import Model.Prescription;
+import Model.prescriptionUser;
 import dal.DBContext;
-
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,105 +11,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrescriptionDAO {
+    private final Connection conn;
 
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
+    public PrescriptionDAO(Connection conn) {
+        this.conn = conn;
+    }
 
-    // Lấy danh sách tất cả đơn thuốc
-    public List<Prescription> getAllPrescriptions() {
+    public void createPrescription(Prescription prescription) throws SQLException {
+        String sql = "INSERT INTO Prescriptions (RecordID, MedicineName, Quantity, Instructions) VALUES (?, ?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, prescription.getRecordID());
+        ps.setString(2, prescription.getMedicineName());
+        ps.setString(3, prescription.getDose());
+        ps.setString(4, prescription.getNote());
+        ps.executeUpdate();
+    }
+
+    public List<Prescription> getPrescriptionsByRecordID(int recordID) throws SQLException {
         List<Prescription> list = new ArrayList<>();
-        String query = "SELECT * FROM Prescriptions";
-
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                list.add(new Prescription(
-                        rs.getInt("PrescriptionID"),
-                        rs.getInt("RecordID"),
-                        rs.getString("MedicineName"),
-                        rs.getInt("Quantity"),
-                        rs.getString("Instructions")
-                ));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        String sql = "SELECT * FROM Prescriptions WHERE RecordID = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, recordID);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Prescription p = new Prescription();
+            p.setPrescriptionID(rs.getInt("PrescriptionID"));
+            p.setRecordID(rs.getInt("RecordID"));
+            p.setMedicineName(rs.getString("MedicineName"));
+            p.setNote(rs.getString("Instructions"));
+            list.add(p);
         }
         return list;
     }
 
-    // Lấy 1 đơn thuốc theo PrescriptionID
-    public Prescription getPrescriptionByID(int prescriptionID) {
-        String query = "SELECT * FROM Prescriptions WHERE PrescriptionID = ?";
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, prescriptionID);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Prescription(
-                        rs.getInt("PrescriptionID"),
-                        rs.getInt("RecordID"),
-                        rs.getString("MedicineName"),
-                        rs.getInt("Quantity"),
-                        rs.getString("Instructions")
-                );
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void updatePrescription(Prescription p) throws SQLException {
+        String sql = "UPDATE Prescriptions SET MedicineName=?, Instructions=? WHERE PrescriptionID=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, p.getMedicineName());
+        ps.setString(2, p.getNote());
+        ps.setInt(3, p.getPrescriptionID());
+        ps.executeUpdate();
     }
 
-    // Thêm đơn thuốc mới
-    public void addPrescription(Prescription p) {
-        String sql = "INSERT INTO Prescriptions (RecordID, MedicineName, Quantity, Instructions) VALUES (?, ?, ?, ?)";
-        try (Connection conn = new DBContext().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, p.getRecordID());
-            ps.setString(2, p.getMedicineName());
-            ps.setInt(3, p.getQuantity());
-            ps.setString(4, p.getInstructions());
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Cập nhật đơn thuốc
-    public void updatePrescription(Prescription p) {
-        String sql = "UPDATE Prescriptions SET RecordID=?, MedicineName=?, Quantity=?, Instructions=? WHERE PrescriptionID=?";
-        try (Connection conn = new DBContext().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, p.getRecordID());
-            ps.setString(2, p.getMedicineName());
-            ps.setInt(3, p.getQuantity());
-            ps.setString(4, p.getInstructions());
-            ps.setInt(5, p.getPrescriptionID());
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Xoá đơn thuốc
-    public void deletePrescription(int prescriptionID) {
+    public void deletePrescription(int id) throws SQLException {
         String sql = "DELETE FROM Prescriptions WHERE PrescriptionID=?";
-        try (Connection conn = new DBContext().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+    }
 
-            ps.setInt(1, prescriptionID);
-            ps.executeUpdate();
+    public Prescription getPrescriptionByID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public List<Prescription> getAllPrescriptions() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
