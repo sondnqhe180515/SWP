@@ -23,7 +23,7 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                margin-left: auto; /* Đẩy về bên phải */
+                margin-left: auto;
             }
 
             .banner .search-form, .banner .sort-form {
@@ -68,10 +68,9 @@
     </head>
     <body>
         <% 
-            // Kiểm tra nếu không có dữ liệu, chuyển hướng đến Servlet
             if (request.getAttribute("customerList") == null) {
                 response.sendRedirect(request.getContextPath() + "/ViewCustomerAccountServlet?page=1");
-                return; // Dừng xử lý JSP
+                return;
             }
         %>
 

@@ -1,14 +1,15 @@
 package controller;
 
 import dao.AppointmentDAO;
-import dao.ServiceDAO;
 import dao.UserDAO;
+import dao.ServiceDAO;
 import model.Appointment;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.net.URLEncoder;
 
 public class EditBookingServlet extends HttpServlet {
 
@@ -36,10 +37,20 @@ public class EditBookingServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         AppointmentDAO appDao = new AppointmentDAO();
         Appointment app = appDao.getAppointmentById(id);
+        UserDAO userDao = new UserDAO();
+        ServiceDAO serviceDao = new ServiceDAO();
         request.setAttribute("appointment", app);
-        request.setAttribute("customers", new UserDAO().getUsersByDefaultOrder("Khách hàng"));
-        request.setAttribute("doctors", new UserDAO().getUsersByDefaultOrder("Bác sĩ"));
-        request.setAttribute("services", new ServiceDAO().getAllServices());
+        request.setAttribute("customers", userDao.getUsersByDefaultOrder("Khách hàng"));
+        request.setAttribute("doctors", userDao.getUsersByDefaultOrder("Bác sĩ"));
+        request.setAttribute("services", serviceDao.getAllServices());
+
+        // Giữ lại các filter
+        request.setAttribute("status", request.getParameter("status") != null ? request.getParameter("status") : "");
+        request.setAttribute("date", request.getParameter("date") != null ? request.getParameter("date") : "");
+        request.setAttribute("sortBy", request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "");
+        request.setAttribute("keyword", request.getParameter("keyword") != null ? request.getParameter("keyword") : "");
+        request.setAttribute("page", request.getParameter("page") != null ? request.getParameter("page") : "1");
+
         request.getRequestDispatcher("editBooking.jsp").forward(request, response);
     }
 
@@ -54,12 +65,12 @@ public class EditBookingServlet extends HttpServlet {
             String status = request.getParameter("status");
             String note = request.getParameter("note") != null ? request.getParameter("note").trim() : "";
             String dateStr = request.getParameter("appointmentDate");
-
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            
             Date appointmentDate = sdf.parse(dateStr);
             Date now = new Date();
-
             Appointment app = new Appointment();
+            
             app.setAppointmentId(id);
             app.setCustomerId(customerId);
             app.setDoctorId(doctorId);
@@ -68,23 +79,18 @@ public class EditBookingServlet extends HttpServlet {
             app.setStatus(status);
             app.setNote(note);
 
-            request.setAttribute("appointment", app);
-            request.setAttribute("customers", new UserDAO().getUsersByDefaultOrder("Khách hàng"));
-            request.setAttribute("doctors", new UserDAO().getUsersByDefaultOrder("Bác sĩ"));
-            request.setAttribute("services", new ServiceDAO().getAllServices());
-
 //            if (appointmentDate.before(now)) {
 //                request.setAttribute("error", "Không thể chọn thời điểm trong quá khứ.");
-//                request.getRequestDispatcher("editBooking.jsp").forward(request, response);
+//                request.setAttribute("appointment", app);
+//                doGet(request, response);
 //                return;
 //            }
-
             if (!isValidAppointmentTime(appointmentDate)) {
                 request.setAttribute("error", "Vui lòng chọn khung giờ hợp lệ: 07:00–11:30 hoặc 14:00–17:00");
-                request.getRequestDispatcher("editBooking.jsp").forward(request, response);
+                request.setAttribute("appointment", app);
+                doGet(request, response);
                 return;
             }
-
             if (!note.isEmpty()) {
                 if (note.length() > 255) {
                     request.setAttribute("error", "Ghi chú không được vượt quá 255 ký tự.");
@@ -98,33 +104,29 @@ public class EditBookingServlet extends HttpServlet {
                     request.setAttribute("error", "Không được nhập 3 ký tự giống nhau liên tiếp trong ghi chú.");
                 }
                 if (request.getAttribute("error") != null) {
-                    request.getRequestDispatcher("editBooking.jsp").forward(request, response);
+                    request.setAttribute("appointment", app);
+                    doGet(request, response);
                     return;
                 }
             }
 
-            AppointmentDAO dao = new AppointmentDAO();
-//            List<Appointment> sameTimeAppointments = dao.getAppointmentsByDoctorAndTime(doctorId, appointmentDate);
-//            boolean hasOngoing = sameTimeAppointments.stream()
-//                    .anyMatch(a -> a.getStatus().equalsIgnoreCase("Đang xử lý") && a.getAppointmentId() != id);
-//
-//            if (hasOngoing) {
-//                List<Appointment> overlaps = dao.getAppointmentsOfDoctorInDay(doctorId, appointmentDate);
-//                StringBuilder message = new StringBuilder("Bác sĩ đã có lịch trùng trong ngày:\n");
-//                SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-//                for (Appointment ap : overlaps) {
-//                    if (ap.getAppointmentId() != id) {
-//                        message.append("- ").append(displayFormat.format(ap.getAppointmentDate())).append("\n");
-//                    }
-//                }
-//                request.setAttribute("error", message.toString());
-//                request.getRequestDispatcher("editBooking.jsp").forward(request, response);
-//                return;
-//            }
+            new AppointmentDAO().updateAppointment(app);
 
-            dao.updateAppointment(app);
-            response.sendRedirect("ViewBookingServlet");
+            // Lấy filter từ request để redirect đúng trang danh sách với filter
+            String statusFilter = request.getParameter("statusFilter") != null ? request.getParameter("statusFilter") : "";
+            String dateFilter = request.getParameter("date") != null ? request.getParameter("date") : "";
+            String sortBy = request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "";
+            String keyword = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
+            String page = request.getParameter("page") != null ? request.getParameter("page") : "1";
 
+            String redirectURL = "ViewBookingServlet"
+                    + "?status=" + URLEncoder.encode(statusFilter, "UTF-8")
+                    + "&date=" + URLEncoder.encode(dateFilter, "UTF-8")
+                    + "&sortBy=" + URLEncoder.encode(sortBy, "UTF-8")
+                    + "&keyword=" + URLEncoder.encode(keyword, "UTF-8")
+                    + "&page=" + page;
+
+            response.sendRedirect(redirectURL);
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Lỗi cập nhật lịch khám: " + e.getMessage());

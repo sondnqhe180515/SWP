@@ -17,7 +17,6 @@
     if (sortBy == null) sortBy = "";
     if (keyword == null) keyword = "";
 
-    // Phân trang
     int currentPageNum = 1;
     int pageSize = 10;
     String pageParam = request.getParameter("page");
@@ -39,13 +38,12 @@
         fullList = dao.sortAppointmentsByDate(statusFilter, dateFilter);
     } else {
         if (statusFilter.isEmpty() && dateFilter.isEmpty()) {
-            fullList = dao.getAllAppointments(); // Mặc định lấy tất cả nếu không có bộ lọc
+            fullList = dao.getAllAppointments();
         } else {
             fullList = dao.getFilteredAppointments(statusFilter, dateFilter);
         }
     }
-
-    // Phân trang
+   
     int totalAppointments = fullList.size();
     int totalPages = (int) Math.ceil((double) totalAppointments / pageSize);
     int start = (currentPageNum - 1) * pageSize;
@@ -209,7 +207,7 @@
                             <td><%= a.getStatus() %></td>
                             <td><%= a.getNote() != null ? a.getNote() : "" %></td>
                             <td class="buttons">
-                                <a href="EditBookingServlet?id=<%= a.getAppointmentId() %>">
+                                <a href="EditBookingServlet?id=<%= a.getAppointmentId() %>&status=<%= statusFilter %>&date=<%= dateFilter %>&sortBy=<%= sortBy %>&keyword=<%= keyword %>&page=<%= currentPageNum %>">
                                     <button class="btn">Điều chỉnh</button>
                                 </a>
                                 <a href="AppointmentDetailServlet?id=<%= a.getAppointmentId() %>">

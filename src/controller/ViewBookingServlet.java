@@ -50,6 +50,7 @@ public class ViewBookingServlet extends HttpServlet {
         ServiceDAO serviceDao = new ServiceDAO();
         List<Appointment> fullList;
 
+        // Xử lý tìm kiếm và sắp xếp
         if (!keyword.trim().isEmpty()) {
             fullList = dao.searchAppointmentsByCustomerName(keyword, status, date, sortBy);
         } else if ("name".equalsIgnoreCase(sortBy)) {
@@ -60,7 +61,6 @@ public class ViewBookingServlet extends HttpServlet {
             fullList = dao.getFilteredAppointments(status, date); // Mặc định
         }
 
-        // Phân trang
         int totalAppointments = fullList.size();
         int totalPages = (int) Math.ceil((double) totalAppointments / pageSize);
         int start = (page - 1) * pageSize;

@@ -91,14 +91,17 @@ public class CreateBookingServlet extends HttpServlet {
 //                    break;
 //                }
 //            }
-
             if (hasOngoing) {
                 List<Appointment> overlaps = dao.getAppointmentsOfDoctorInDay(doctorId, appointmentDate);
-                StringBuilder message = new StringBuilder("Bác sĩ đã có lịch trùng trong ngày:\n");
+                overlaps.sort(Comparator.comparing(Appointment::getAppointmentDate)); // sắp xếp tăng dần
+                request.setAttribute("appointmentsOfDoctorInDay", overlaps);
+
+                StringBuilder message = new StringBuilder("Các ca khám của bác sĩ trong ngày:\n");
                 SimpleDateFormat displayFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                 for (Appointment ap : overlaps) {
                     message.append("- ").append(displayFormat.format(ap.getAppointmentDate())).append("\n");
                 }
+
                 request.setAttribute("error", message.toString());
                 request.getRequestDispatcher("createBooking.jsp").forward(request, response);
                 return;

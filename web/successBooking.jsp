@@ -48,10 +48,10 @@
     <body>
         <div class="content">
             <div class="container">
-                <div class="header">Booking Thành Công!</div>
+                <div class="header">Xếp Lịch Thành Công!</div>
                 <div class="message-body">
-                    <p>Đặt lịch thành công.</p>
-                    <p><a href="viewBooking.jsp">Quay lại</a></p>
+                    <p>Xếp lịch khám thành công.</p>
+                    <p><a href="createBooking.jsp">Quay lại</a></p>
                 </div>
             </div>
         </div>
