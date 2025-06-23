@@ -1,0 +1,120 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f2fbff;
+    padding: 20px;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    color: #0078b4;
+    margin-bottom: 20px;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+form {
+    max-width: 1000px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    gap: 10px;
+}
+
+form input[type="text"] {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+form button {
+    padding: 12px 24px;
+    background-color: #64ccff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+form button:hover {
+    background-color: #45bde0;
+}
+
+.top-buttons {
+    max-width: 1000px;
+    margin: 0 auto 20px auto;
+    text-align: right;
+}
+.btn-add {
+    padding: 10px 20px;
+    background-color: #64ccff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.3s;
+}
+.btn-add:hover {
+    background-color: #45bde0;
+}
+
+table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+thead {
+    background-color: #64ccff;
+    color: white;
+}
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+    word-break: break-word;
+}
+tbody tr:hover {
+    background-color: #f1faff;
+}
+
+.btn-update, .btn-delete {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    display: inline-block;
+}
+.btn-update {
+    background-color: #ffa500;
+}
+.btn-update:hover {
+    background-color: #ff8c00;
+}
+.btn-delete {
+    background-color: #ff6b6b;
+    margin-left: 5px;
+}
+.btn-delete:hover {
+    background-color: #e55b5b;
+}
+
+p {
+    text-align: center;
+    color: gray;
+    font-size: 16px;
+    margin-top: 40px;
+}

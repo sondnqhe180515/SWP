@@ -1,0 +1,91 @@
+.btn-r {
+    background-color: white;
+    color: #64ccff;
+    border-color: #64ccff;
+}
+.btn-r:hover {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    overflow-x: auto;
+}
+
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    width: 100%;
+}
+.table thead th {
+    background-color: #64ccff;
+    color: white;
+    text-align: center;
+}
+
+.table td, .table th {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+.table tbody tr:hover {
+    background-color: #e0f7ff;
+}
+
+.pagination {
+    justify-content: center;
+    margin: 20px 0;
+    flex-shrink: 0;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #64ccff;
+    border-color: #64ccff;
+    color: white;
+}
+
+.pagination .page-link {
+    color: #0078B4;
+}
+
+footer {
+    background-color: #d0f0fd;
+    text-align: center;
+    padding: 15px;
+    font-weight: bold;
+    color: #0078B4;
+    border-top: 1px solid #ccc;
+    margin-top: auto;
+}
+
+.btn-bottom-left {
+    text-align: left;
+    padding: 10px 50px;
+    margin-top: auto;
+}
+
+.btn-back-home {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: white;
+    color: #0078B4;
+    border: 2px solid #0078B4;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-back-home:hover {
+    background-color: #64ccff;
+    color: white;
+    border-color: #64ccff;
+}
+
+
