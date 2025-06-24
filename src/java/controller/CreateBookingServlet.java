@@ -81,16 +81,16 @@ public class CreateBookingServlet extends HttpServlet {
 
             AppointmentDAO dao = new AppointmentDAO();
             List<Appointment> sameTimeAppointments = dao.getAppointmentsByDoctorAndTime(doctorId, appointmentDate);
-            boolean hasOngoing = sameTimeAppointments.stream()
-                    .anyMatch(a -> a.getStatus().equalsIgnoreCase("Đang xử lý"));
+//            boolean hasOngoing = sameTimeAppointments.stream()
+//                    .anyMatch(a -> a.getStatus().equalsIgnoreCase("Đang xử lý"));
 
-//            boolean hasOngoing = false;
-//            for (Appointment a : sameTimeAppointments) {
-//                if (a.getStatus().equalsIgnoreCase("Đang xử lý")) {
-//                    hasOngoing = true;
-//                    break;
-//                }
-//            }
+            boolean hasOngoing = false;
+            for (Appointment a : sameTimeAppointments) {
+                if (a.getStatus().equalsIgnoreCase("Đang xử lý")) {
+                    hasOngoing = true;
+                    break;
+                }
+            }
             if (hasOngoing) {
                 List<Appointment> overlaps = dao.getAppointmentsOfDoctorInDay(doctorId, appointmentDate);
                 overlaps.sort(Comparator.comparing(Appointment::getAppointmentDate)); // sắp xếp tăng dần

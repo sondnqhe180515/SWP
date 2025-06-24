@@ -79,12 +79,6 @@ public class EditBookingServlet extends HttpServlet {
             app.setStatus(status);
             app.setNote(note);
 
-//            if (appointmentDate.before(now)) {
-//                request.setAttribute("error", "Không thể chọn thời điểm trong quá khứ.");
-//                request.setAttribute("appointment", app);
-//                doGet(request, response);
-//                return;
-//            }
             if (!isValidAppointmentTime(appointmentDate)) {
                 request.setAttribute("error", "Vui lòng chọn khung giờ hợp lệ: 07:00–11:30 hoặc 14:00–17:00");
                 request.setAttribute("appointment", app);
